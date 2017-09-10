@@ -1,7 +1,6 @@
 {
-  "name": "react-tutorial",
+  "name": "react-twitter",
   "version": "0.0.0",
-  "description": "CoderCourse.io React Tutorial",
   "main": "server.js",
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -22,18 +21,7 @@
     "compile": "webpack --watch",
     "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/esthersweon/react"
-  },
-  "keywords": [
-    "react",
-    "tutorial",
-    "comment",
-    "example"
-  ],
-  "author": "esthersweon & senseiurata",
-  "homepage": "https://github.com/esthersweon/react",
+  "author": "diwang",
   "engines": {
     "node": "0.12.x"
   }

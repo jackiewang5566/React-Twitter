@@ -15,17 +15,19 @@ const arrOfTweets = [
 class Twitter extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {};
-    // this.loadTweetsFromServer = this.loadTweetsFromServer.bind(this);
+    this.state = {data: ''};
+    this.loadTweetsFromServer = this.loadTweetsFromServer.bind(this);
     // this.handleTweetSubmit = this.handleTweetSubmit.bind(this);
   }
-  // loadTweetsFromServer() {
-  //   // GET updated set of tweets from database
-  //   $.get(this.props.url, (data) => {
-  //       // Set state in step 6 of the exercise!
-  //     }
-  //   );
-  // }
+  loadTweetsFromServer() {
+    // GET updated set of tweets from database
+    $.get(this.props.url, (data) => {
+        // Set state in step 6 of the exercise!
+        this.setState({ data: data });
+        this.props.data = this.state.data;
+      }
+    );
+  }
   // handleTweetSubmit(author, text) {
   //   const tweet = { author, text };
   //
@@ -35,16 +37,18 @@ class Twitter extends React.Component {
   //     }
   //   );
   // }
-  // componentDidMount() {
-  //   // Set this.state.data to most recent set of tweets from database
-  //   this.loadTweetsFromServer();
-  // }
+  componentDidMount() {
+    // Set this.state.data to most recent set of tweets from database
+    this.loadTweetsFromServer();
+  }
   render() {
     return (
       <div className="twitter">
         <h1>Tweets</h1>
         {/* Render TweetForm component here */}
+        <TweetForm />
         {/* Render TweetList component here */}
+        <TweetList data={this.props.data} />
       </div>
     );
   }
@@ -60,6 +64,7 @@ class TweetForm extends React.Component {
     return (
       <form className="tweetForm">
         {/* Render some text here */}
+        TweetForm component
       </form>
     );
   }
@@ -67,9 +72,12 @@ class TweetForm extends React.Component {
 
 class TweetList extends React.Component {
   render() {
+    const tweets = this.props.data.map(tweet => <Tweet data={tweet} key={tweet.text} />)
+
     return (
       <div className="tweetList">
         {/* Render some text here */}
+        { tweets }  
       </div>
     );
   }
@@ -80,12 +88,14 @@ class Tweet extends React.Component {
     return (
       <div className="tweet">
         {/* Render some text here */}
+        <strong>{ this.props.data.text }</strong> <br />
+        - { this.props.data.author } 
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <Twitter />,
+  <Twitter data={arrOfTweets} url="tweets.json" />,
   document.getElementById('tweets')
 );
