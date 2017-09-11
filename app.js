@@ -60,19 +60,17 @@ class TweetForm extends React.Component {
   }
 
   handleSubmit(e) {
-    if (e) {
-      e.preventDefault();
-    }
+    e.preventDefault();
     
-    alert("You submitted the form!");
+    alert(`${this.refs.author.value} submitted this form, the text is ${this.refs.text.value}`);
   }
 
   render() {
     return (
-      <form className="tweetForm" onSubmit={this.handleSubmit(event)}>
+      <form className="tweetForm" onSubmit={ this.handleSubmit }>
         {/* Render some text here */}
-        <input placeholder="Author Name" />
-        <input placeholder="Tweet" />
+        <input placeholder="Author Name" ref="author" /> 
+        <input placeholder="Tweet" ref="text" />
         <button className="btn btn-info">Tweet</button>
       </form>
     );
@@ -81,7 +79,6 @@ class TweetForm extends React.Component {
 
 class TweetList extends React.Component {
   render() {
-    console.log('tweet list props', this.props);
     const tweets = this.props.data ? this.props.data.map(tweet => <Tweet data={tweet} key={tweet.text} />) : null;
 
     return (
