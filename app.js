@@ -15,39 +15,44 @@ const arrOfTweets = [
 class Twitter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {data: ''};
+    this.state = {tweets: ''};
     this.loadTweetsFromServer = this.loadTweetsFromServer.bind(this);
-    // this.handleTweetSubmit = this.handleTweetSubmit.bind(this);
+    this.handleTweetSubmit = this.handleTweetSubmit.bind(this);
   }
+
   loadTweetsFromServer() {
     // GET updated set of tweets from database
-    $.get(this.props.url, (data) => {
+    $.get(this.props.url, (tweets) => {
         // Set state in step 6 of the exercise!
-        this.setState({ data: data });
+        this.setState({ tweets: tweets });
       }
     );
   }
-  // handleTweetSubmit(author, text) {
-  //   const tweet = { author, text };
-  //
-  //   // POST to add tweet to database
-  //   $.post(this.props.url, tweet, (data) => {
-  //       // Set state in step 10 of the exercise!
-  //     }
-  //   );
-  // }
+
+  handleTweetSubmit(author, text) {
+    const tweet = { author, text };
+  
+    // POST to add tweet to database
+    $.post(this.props.url, tweet, (tweets) => {
+        // Set state in step 10 of the exercise!
+        this.setState({ tweets: tweets })
+      }
+    );
+  }
+
   componentDidMount() {
     // Set this.state.data to most recent set of tweets from database
     this.loadTweetsFromServer();
   }
+
   render() {
     return (
       <div className="twitter">
         <h1>Tweets</h1>
         {/* Render TweetForm component here */}
-        <TweetForm />
+        <TweetForm onTweetSubmit={ this.handleTweetSubmit } />
         {/* Render TweetList component here */}
-        <TweetList data={this.state.data} />
+        <TweetList tweets={ this.state.tweets } />
       </div>
     );
   }
@@ -62,7 +67,7 @@ class TweetForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     
-    alert(`${this.refs.author.value} submitted this form, the text is ${this.refs.text.value}`);
+    this.props.onTweetSubmit(this.refs.author.value, this.refs.text.value);
   }
 
   render() {
@@ -79,7 +84,7 @@ class TweetForm extends React.Component {
 
 class TweetList extends React.Component {
   render() {
-    const tweets = this.props.data ? this.props.data.map(tweet => <Tweet data={tweet} key={tweet.text} />) : null;
+    const tweets = this.props.tweets ? this.props.tweets.map(tweet => <Tweet tweet={tweet} key={tweet.text} />) : null;
 
     return (
       <div className="tweetList">
@@ -95,8 +100,8 @@ class Tweet extends React.Component {
     return (
       <div className="tweet">
         {/* Render some text here */}
-        <strong>{ this.props.data.text }</strong> <br />
-        - { this.props.data.author } 
+        <strong>{ this.props.tweet.text }</strong> <br />
+        - { this.props.tweet.author } 
       </div>
     );
   }
