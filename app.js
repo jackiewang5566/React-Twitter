@@ -24,7 +24,6 @@ class Twitter extends React.Component {
     $.get(this.props.url, (data) => {
         // Set state in step 6 of the exercise!
         this.setState({ data: data });
-        this.props.data = this.state.data;
       }
     );
   }
@@ -48,7 +47,7 @@ class Twitter extends React.Component {
         {/* Render TweetForm component here */}
         <TweetForm />
         {/* Render TweetList component here */}
-        <TweetList data={this.props.data} />
+        <TweetList data={this.state.data} />
       </div>
     );
   }
@@ -72,12 +71,13 @@ class TweetForm extends React.Component {
 
 class TweetList extends React.Component {
   render() {
-    const tweets = this.props.data.map(tweet => <Tweet data={tweet} key={tweet.text} />)
+    console.log('tweet list props', this.props);
+    const tweets = this.props.data ? this.props.data.map(tweet => <Tweet data={tweet} key={tweet.text} />) : null;
 
     return (
       <div className="tweetList">
         {/* Render some text here */}
-        { tweets }  
+        { tweets }   
       </div>
     );
   }
