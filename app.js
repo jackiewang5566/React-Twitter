@@ -56,14 +56,24 @@ class Twitter extends React.Component {
 class TweetForm extends React.Component {
   constructor(props) {
     super(props);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  // handleSubmit(e) {}
+
+  handleSubmit(e) {
+    if (e) {
+      e.preventDefault();
+    }
+    
+    alert("You submitted the form!");
+  }
+
   render() {
     return (
-      <form className="tweetForm">
+      <form className="tweetForm" onSubmit={this.handleSubmit(event)}>
         {/* Render some text here */}
-        TweetForm component
+        <input placeholder="Author Name" />
+        <input placeholder="Tweet" />
+        <button className="btn btn-info">Tweet</button>
       </form>
     );
   }
